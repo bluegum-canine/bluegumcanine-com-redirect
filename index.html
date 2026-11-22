@@ -6,13 +6,31 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Bluegum Canine</title>
 <link rel="canonical" href="https://bluegumcanine.ie/">
+
+<!-- Cloudflare Web Analytics. This page exists only to forward, so the
+     count it produces answers one question: how many people type .com
+     rather than .ie. The beacon is a module script, so it runs after the
+     HTML is parsed — which is why the redirect below waits for it rather
+     than firing inline in the head as it used to. -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "d2e24b5e4db946d9be1e94ad20025ac8"}'></script>
+
 <script>
   // bluegumcanine.com is a forwarding address: send every path to the same
-  // path on bluegumcanine.ie, the site's home.
-  location.replace("https://bluegumcanine.ie" + location.pathname +
-                   location.search + location.hash);
+  // path on bluegumcanine.ie, the site's home. A short wait first, so the
+  // beacon above has run and this visit is counted; 250ms is under the
+  // threshold where a person notices a page change.
+  (function () {
+    var to = "https://bluegumcanine.ie" + location.pathname +
+             location.search + location.hash;
+    var go = function () { location.replace(to); };
+    if (document.readyState === "complete") { setTimeout(go, 250); }
+    else { window.addEventListener("load", function () { setTimeout(go, 250); }); }
+    // Backstop: if anything above fails, leave no one stranded here.
+    setTimeout(go, 2000);
+  })();
 </script>
-<meta http-equiv="refresh" content="0; url=https://bluegumcanine.ie/">
+<meta http-equiv="refresh" content="3; url=https://bluegumcanine.ie/">
 </head>
 <body>
 <p>Bluegum Canine has moved to <a href="https://bluegumcanine.ie/">bluegumcanine.ie</a>.</p>
